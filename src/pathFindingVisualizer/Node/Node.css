@@ -1,0 +1,150 @@
+.node {
+    width: 25px;
+    height: 25px;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    margin:-0.8px -0.2px;
+  }
+  
+  .node-finish {
+    background-image:url(genderless-solid.svg);
+    /*background-color: rgb(255, 254, 106);*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: nodeAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
+  .node-start {
+    background-image:url(play-solid.svg) !important;
+    /*background-color: rgb(255, 254, 106);*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: nodeAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  } 
+
+
+  .node-visited {
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
+  @keyframes visitedAnimation {
+    0% {
+      transform: scale(0.3);
+      background-color: rgba(240, 20, 12, 0.75);
+      border-radius: 100%;
+    }
+  
+    50% {
+      background-color: rgba(235, 69, 19, 0.75);
+    }
+  
+    75% {
+      transform: scale(1.2);
+      background-color: rgba(235, 69, 19, 0.45);
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: rgba(235, 69, 19, 0.45);
+    }
+  }
+  
+  
+  
+  .node-shortest-path {
+    animation-name: shortestPath;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+
+  
+  @keyframes shortestPath {
+    0% {
+      transform: scale(0.6);
+      background-color: orange;
+    }
+  
+    50% {
+      transform: scale(1.2);
+      background-color: orange;
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: orangered;
+    }
+  } 
+
+  .node-wall{
+    background-image:url(wall.png) !important;
+    background-position-y: top;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: wallAnimation;
+    animation-duration: 0.01s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    border:none;
+  }
+  
+  @keyframes wallAnimation {
+    0% {
+      transform: scale(.3);
+    }
+  
+    50% {
+      transform: scale(1.2);
+    }
+  
+    100% {
+      transform: scale(1.0);
+    }
+  }
+
+  @keyframes nodeAnimation {
+    0% {
+      transform: scale(.3);
+    }
+  
+    50% {
+      transform: scale(1.2);
+    }
+  
+    100% {
+      transform: scale(1.0);
+    }
+  }

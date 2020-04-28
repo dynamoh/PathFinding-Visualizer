@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Of Hanoi</title>
+</head>
+<body>
+    <script>
+        const NUMBER_OF_DISKS = 3;
+        function towerOfHanoi(n, source, destination, auxillary){
+            if(n == 0){
+                return ;
+            }
+            else {
+                towerOfHanoi(n-1, source, auxillary, destination);
+                document.write("Move " + n + " from " + source + " to " + destination + " using " +  auxillary + "</br>");
+                towerOfHanoi(n-1, auxillary, destination, source);
+            }
+        }
+        towerOfHanoi(NUMBER_OF_DISKS, 'A', 'C', 'B');
+    </script>
+</body>
+</html>
