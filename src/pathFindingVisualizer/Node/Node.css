@@ -1,9 +1,9 @@
 .node {
     width: 25px;
-    height: 25px;
-    outline: 1px solid rgb(175, 216, 248);
+    height: 24px;
+    outline: 0.1px solid rgb(175, 216, 248);
     display: inline-block;
-    margin:-0.8px -0.2px;
+    margin:-1.8px -0.2px;
   }
   
   .node-finish {
@@ -24,7 +24,6 @@
   
   .node-start {
     background-image:url(play-solid.svg) !important;
-    /*background-color: rgb(255, 254, 106);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -38,6 +37,25 @@
     animation-play-state: running;
   } 
 
+  .node-via {
+    background-image:url(via.svg) !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: nodeAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+
+  .node-visited-start{
+    background-color: rgb(255, 254, 106) !important;
+  }
 
   .node-visited {
     animation-name: visitedAnimation;
@@ -105,20 +123,20 @@
   } 
 
   .node-wall{
-    background-image:url(wall.png) !important;
+    background-image:url(wall.jpg) !important;
     background-position-y: top;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     animation-name: wallAnimation;
-    animation-duration: 0.01s;
+    animation-duration: 0.1s;
     animation-timing-function: ease-out;
     animation-delay: 0;
     animation-direction: alternate;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-play-state: running;
-    border:none;
+    outline: 0px solid rgb(175, 216, 248) !important;
   }
   
   @keyframes wallAnimation {
@@ -147,4 +165,28 @@
     100% {
       transform: scale(1.0);
     }
+  }
+
+  .node-visited-via {
+    background-color: yellow !important;
+    background-image:url(via.svg) !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .node-visited-start {
+    background-color: orangered !important;
+    background-image:url(play-solid.svg) !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .node-visited-finish {
+    background-color: orangered !important;
+    background-image:url(genderless-solid.svg) !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
   }

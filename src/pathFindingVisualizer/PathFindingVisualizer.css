@@ -1,4 +1,5 @@
 .grid {
     margin:auto;
     margin-top: 100px;
+    overflow:hidden;
   }

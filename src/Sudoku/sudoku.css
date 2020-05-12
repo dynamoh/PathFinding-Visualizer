@@ -12,9 +12,9 @@
 
 .sudoku-grid{
     margin:auto;
-    margin-top:150px;
+    margin-top:50px;
     margin-left:30%;
-    margin-bottom:150px;
+    margin-bottom:50px;
 }
 
 .rowcell{

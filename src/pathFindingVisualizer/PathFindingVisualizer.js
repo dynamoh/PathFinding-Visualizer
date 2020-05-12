@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import {dijkstra, getNodesInShortestPathOrder} from '../Algorithms/dijkstra';
-import {astarsearch} from '../Algorithms/astar'
 import './PathFindingVisualizer.css'
 import Node from './Node/Node';
+import { shortestPathBFS } from '../Algorithms/breadthFirstSearch';
+import { BidirectionalSearch } from '../Algorithms/BidirectionalBFS';
+import { depthFirstSearch } from '../Algorithms/depthFirstSearch';
+import { AStarSearch } from '../Algorithms/AstarSearch';
+import { createGraph } from '../Algorithms/ShortestPath';
 
 
 class PathFindingVisualizer extends Component {
@@ -15,11 +19,14 @@ class PathFindingVisualizer extends Component {
             startNodeDragged: false,
             startNodeRow:10,
             startNodeCol:15,
-            endNodeRow:8,
+            endNodeRow:10,
             endNodeCol:35,
             endNodeDragged:false,
             stnode:true,
             ednode:true,
+            lc:-1,
+            lr:-1,
+            viaNodes:[]
         };
     }
 
@@ -60,13 +67,55 @@ class PathFindingVisualizer extends Component {
             distance: Infinity,
             isVisited:false,
             isWall:false,
+            isVia:false,
             previousNode:null,
             totalDistance:Infinity,
             heuristicDistance:Infinity,
         }
     }
 
+    addViaNode = () => {
+        var btns = document.getElementsByClassName('Algod')
+        for(let i=0;i<btns.length;i++) {
+            btns[i].disabled = true
+        }
+        const {grid,viaNodes} = this.state
+        if(viaNodes.length===9){
+            return
+        }
+        let row = Math.floor(Math.random()*(19-2+1) + 2)
+        let col = Math.floor(Math.random()*(52-2+1) + 2)
+        while(grid[row][col].isWall===true || grid[row][col].isStart===true ||grid[row][col].isFinish===true ||grid[row][col].isVia===true) {
+            row = Math.floor(Math.random()*(19-2+1) + 2)
+            col = Math.floor(Math.random()*(52-2+1) + 2)
+        }
+        
+        const lst = viaNodes
+        lst.push(grid[row][col])
+        const newGrid = grid.slice();
+        const node = newGrid[row][col];
+        const newNode = {
+            ...node,
+            isVia: true,
+        }
+        newGrid[row][col] = newNode;
+        this.setState({
+            grid:newGrid,
+            viaNodes:lst
+        })
+    }
+
     getNewGridWithWallToggled = (grid, row, col) => {
+        const {lc,lr} = this.state
+        if (lc==col && lr==row){
+            return grid;
+        }
+        else {
+            this.setState({
+                lc:col,
+                lr:row
+            })
+        }
         const newGrid = grid.slice();
         const node = newGrid[row][col];
         const newNode = {
@@ -78,7 +127,6 @@ class PathFindingVisualizer extends Component {
     }
 
     getToggledStartNode = (grid, row, col,start) => {
-        console.log(this.state.startNodeDragged)
         const newGrid = grid.slice();
         const node = newGrid[row][col];
         const newNode = {
@@ -138,6 +186,7 @@ class PathFindingVisualizer extends Component {
     }
 
     handleMouseDown(row, col) {
+        
         const ele = document.getElementById(`node-${row}-${col}`).className;
         const k = ele.split(" ");
         if(k[1] === 'node-start' || this.state.startNodeDragged){    
@@ -156,9 +205,13 @@ class PathFindingVisualizer extends Component {
             const newGrid = this.getToggledStartNode(this.state.grid, row, col,false);
             return;
         }
+        else if(k[1] === 'node-via') {
+            return;
+        }
         else {
+        // alert("mouseDown")
         const newGrid = this.getNewGridWithWallToggled(this.state.grid, row, col);
-        this.setState({grid: newGrid, mouseIsPressed: true});
+        this.setState({grid: newGrid,mouseIsPressed:true});
         }
     }
 
@@ -174,6 +227,9 @@ class PathFindingVisualizer extends Component {
             const newGrid = this.getToggledStartNode(this.state.grid, row, col,false);
             this.setState({grid: newGrid});
             return;
+        } 
+        else if(k[1] === 'node-via'){
+            return
         }
         else {
         const newGrid = this.getNewGridWithWallToggled(this.state.grid, row, col);
@@ -183,37 +239,66 @@ class PathFindingVisualizer extends Component {
 
     handleMouseUp() {
         if (this.state.stnode){
-            this.setState({startNodeDragged: false,stnode:true})
+            this.setState({startNodeDragged: false,stnode:true,mouseIsPressed: false})
         } 
         if (this.state.ednode) {
-            this.setState({endNodeDragged: false,ednode:true})
+            this.setState({endNodeDragged: false,ednode:true,mouseIsPressed: false})
         }
-        this.setState({mouseIsPressed: false});
+        this.setState({mouseIsPressed: false,lr:-1,lc:-1});
     }
 
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+        const r = this.state.startNodeRow
+        const c = this.state.startNodeCol
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-          if (i === visitedNodesInOrder.length) {
+          if (i === visitedNodesInOrder.length && nodesInShortestPathOrder!==false) {
             setTimeout(() => {
               this.animateShortestPath(nodesInShortestPathOrder);
-            }, 100 * i);
+            }, 10 * i);
             return;
           }
           setTimeout(() => {
             const node = visitedNodesInOrder[i];
+            if(node.isVia) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-via';
+            } else if(node.isStart) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-start';
+            } else if(node.isFinish) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-finish';
+            } else {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited';
+            }
             
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-            'node node-visited';
-          }, 100 * i);
+          }, 10 * i);
         }
     }
 
     animateShortestPath(nodesInShortestPathOrder) {
+        const r = this.state.startNodeRow
+        const c = this.state.startNodeCol
+        if(nodesInShortestPathOrder.length === 0){
+            return 
+        }
         for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
           setTimeout(() => {
             const node = nodesInShortestPathOrder[i];
-            document.getElementById(`node-${node.row}-${node.col}`).className =
+            if(node.isVia) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-via';
+            } else if(node.isStart) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-start';
+            } else if(node.isFinish) {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-visited-finish';
+            } else {
+                document.getElementById(`node-${node.row}-${node.col}`).className =
                 'node node-shortest-path';
+            }
           }, 50 * i);
         }
     }
@@ -227,18 +312,44 @@ class PathFindingVisualizer extends Component {
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     }
 
+    visualizeBreadthFirstSearch() {
+        const {grid} = this.state
+        const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
+        const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
+        const {animations,path} = shortestPathBFS(grid, startNode, finishNode);
+        this.animateDijkstra(animations, path);
+    }
+
+    VisualizeBidirectionalSearch() {
+        const {grid} = this.state
+        const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
+        const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
+        const {animations,path} = BidirectionalSearch(grid, startNode, finishNode);
+        this.animateDijkstra(animations, path);
+    }
+
+    visualizeDepthFirstSearch() {
+        const {grid} = this.state
+        const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
+        const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
+        const {animations,path} = depthFirstSearch(grid, startNode, finishNode);
+        this.animateDijkstra(animations, path);
+    }
+
     visualizeAStar() {
         const {grid} = this.state
         const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
         const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
-        const {path,animation} = astarsearch(grid, startNode, finishNode);
-        // console.log(path)
-        // console.log(animation)
-        if(path === false){
-            alert("No Path Exists !!")
-            return 
-        }
-        this.animateDijkstra(animation, path);
+        const {animations,path} = AStarSearch(grid, startNode, finishNode)
+        this.animateDijkstra(animations, path);
+    }
+
+    test() {
+        const {grid,viaNodes} = this.state
+        const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
+        const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
+        const {animations,path} = createGraph(grid, viaNodes, startNode, finishNode)
+        this.animateDijkstra(animations, path);
     }
 
     render() {
@@ -246,19 +357,35 @@ class PathFindingVisualizer extends Component {
 
         return (
             <>
-                <button onClick={() => this.visualizeDijkstra()}>
-                Visualize Dijkstra's Algorithm
+                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeDijkstra()}>
+                    Visualize Dijkstra's Algorithm
                 </button>
-                <button onClick={() => this.visualizeAStar()}>
-                Visualize a* Algorithm
+                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeAStar()}>
+                    Visualize a* Algorithm
                 </button>
-                <button onClick={() => this.getMazeGrid()}>Generate Maze</button>
+                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeBreadthFirstSearch()}>
+                    Visualize Breadth First Search Algorithm
+                </button>
+                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.VisualizeBidirectionalSearch()}>
+                    Visualize Bidirectional Search Algorithm
+                </button>
+                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeDepthFirstSearch()}>
+                    Visualize Depth First Search Algorithm
+                </button>
+                <br />
+                <button style={{margin:"0px 10px"}} onClick={() => this.addViaNode()}>
+                    Add via nodes
+                </button>
+                <button style={{margin:"0px 10px"}} onClick={() => this.test()}>
+                    Find Shortest Path
+                </button>
+                
                 <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
                     <tr key={rowIdx}>
                         {row.map((node, nodeIdx) => {
-                        const {row, col, isFinish, isStart, isWall} = node;
+                        const {row, col, isFinish, isStart, isWall, isVia} = node;
                         return (
                             <td><Node
                             key={nodeIdx}
@@ -266,6 +393,7 @@ class PathFindingVisualizer extends Component {
                             isFinish={isFinish}
                             isStart={isStart}
                             isWall={isWall}
+                            isVia={isVia}
                             mouseIsPressed={mouseIsPressed}
                             onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                             onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}

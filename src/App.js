@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
-import PathFindingVisualizer from './pathFindingVisualizer/PathFindingVisualizer';
-import Sudoku from './Sudoku/sudoku';
-import TowerOfHanoi from './TowerOfHanoi/TowerOfHanoi';
+import { BrowserRouter as Router } from "react-router-dom";
+import BaseRouter from './routes';
 
 function App() {
   return (
     <div className="App">
-      <PathFindingVisualizer />
-      <Sudoku />
-      <TowerOfHanoi />
+      <Router>
+        <BaseRouter />
+      </Router>
     </div>
   );
 }

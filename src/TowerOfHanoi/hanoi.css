@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.towerOfHanoi {
+    flex-direction: row;
+    height: 400px;
+    width: 1200px;
+    margin-top: 2em;
+    border-bottom: 5px solid grey;  
+}
+
+.tower1,
+.tower2,
+.tower3 {
+    background-color: white;
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.stick {
+    height: 50%;
+    width: 5px;
+    border-radius: 5px;
+    background-color: grey;
+    margin: 0 auto;
+}
+
+.disk {
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 10;
+    transition: bottom 250ms ease-in-out, transform 250ms ease-in-out;
+}

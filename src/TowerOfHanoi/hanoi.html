@@ -179,7 +179,7 @@
 	  disk = document.getElementById(num);
 
 	//get current translateX css value and then add the distance between start and destination peg
-	  regEx = /\.translateX\((.)px\)/i;
+	  regEx = /\.*translateX\((.*)px\)/i;
 	  translate = disk.getAttribute('style')
 	  value = parseInt(regEx.exec(translate)[1]) + (distance*400);
 

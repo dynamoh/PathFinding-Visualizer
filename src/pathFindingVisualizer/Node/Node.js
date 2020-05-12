@@ -8,6 +8,7 @@ export default class Node extends Component {
         isFinish,
         isStart,
         isWall,
+        isVia,
         onMouseDown,
         onMouseEnter,
         onMouseUp,
@@ -21,7 +22,9 @@ export default class Node extends Component {
         ? 'node-start'
         : isWall
         ? 'node-wall'
-        : '';
+        : isVia 
+        ? 'node-via' 
+        : ''
   
       return (
         <div
