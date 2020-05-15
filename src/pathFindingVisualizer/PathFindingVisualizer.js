@@ -183,6 +183,7 @@ class PathFindingVisualizer extends Component {
     componentDidMount() {
         const grid = this.getInitialGrid();
         this.setState({grid});
+        
     }
 
     handleMouseDown(row, col) {
@@ -357,6 +358,7 @@ class PathFindingVisualizer extends Component {
 
         return (
             <>
+                
                 <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeDijkstra()}>
                     Visualize Dijkstra's Algorithm
                 </button>
@@ -407,6 +409,7 @@ class PathFindingVisualizer extends Component {
                     );
                 })}
                 </div>
+                
             </>
         )
     }
