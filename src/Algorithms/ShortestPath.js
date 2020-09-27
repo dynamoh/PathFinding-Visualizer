@@ -112,6 +112,13 @@ function getPath(grid, start, finish, min_path, viaNodes) {
 
     for(let l=0;l<min_path.length-1;l++) {
         let p =  AStarSearch(grid,viaNodes[min_path[l]-1],viaNodes[min_path[l+1]-1])
+        if(p.path.length == 0) {
+            if(l==0) {
+                p =  AStarSearch(grid,start,viaNodes[min_path[l+1]-1])
+            } else {
+                p =  AStarSearch(grid,viaNodes[min_path[l-1]-1],viaNodes[min_path[l+1]-1])
+            }
+        }
         for(let i=0;i<p.animations.length;i++) {
             final_animations.push(p.animations[i])
         }
@@ -120,6 +127,9 @@ function getPath(grid, start, finish, min_path, viaNodes) {
         }
     }
     let p =  AStarSearch(grid,viaNodes[min_path[min_path.length-1]-1],finish)
+    if(p.path.length == 0) {
+        return {animations:final_animations, path:[]}
+    }
     for(let i=0;i<p.animations.length;i++) {
         final_animations.push(p.animations[i])
     }

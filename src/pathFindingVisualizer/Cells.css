@@ -23,3 +23,47 @@
     height: 100%;
     z-index:-50;
   }
+
+  .node-visited-tree{
+    background-color: rgb(218, 23, 23) !important;
+    animation-name: treevisitedAnimation;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .node-visited-line {
+    stroke: rgb(56, 9, 1) !important;
+  }
+
+  @keyframes treevisitedAnimation {
+    0% {
+      transform: scale(1);
+      background-color: yellowgreen;
+      border-radius: 100%;
+    }
+  
+    50% {
+      transform: scale(1.5);
+      background-color: rgba(235, 69, 19, 0.40);
+    }
+  
+    75% {
+      transform: scale(1.2);
+      background-color: rgba(235, 69, 19, 0.75);
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: rgba(240, 20, 12, 0.75);
+    }
+  }
+
+  .svg-line{
+    stroke-width: 0.5px;
+    stroke:"red";
+  }

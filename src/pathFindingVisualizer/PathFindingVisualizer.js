@@ -75,6 +75,7 @@ class PathFindingVisualizer extends Component {
     }
 
     addViaNode = () => {
+        document.getElementsByClassName('spAlgod')[0].disabled = false
         var btns = document.getElementsByClassName('Algod')
         for(let i=0;i<btns.length;i++) {
             btns[i].disabled = true
@@ -183,7 +184,6 @@ class PathFindingVisualizer extends Component {
     componentDidMount() {
         const grid = this.getInitialGrid();
         this.setState({grid});
-        
     }
 
     handleMouseDown(row, col) {
@@ -248,7 +248,30 @@ class PathFindingVisualizer extends Component {
         this.setState({mouseIsPressed: false,lr:-1,lc:-1});
     }
 
+    clearBoard() {
+        let {grid} = this.state
+        for(let row = 0; row< 21;row++){
+            for(let col = 0; col< 54;col++){
+                let p = document.getElementById(`node-${grid[row][col].row}-${grid[row][col].col}`)
+                if(p.className === 'node node-shortest-path' || p.className === 'node node-visited-finish' || p.className === 'node node-visited-start' || p.className === 'node node-visited') {
+                    if(p.className === 'node node-visited-start') {
+                        p.className = 'node node-start'
+                    }
+
+                    else if(p.className === 'node node-visited-finish') {
+                        p.className = 'node node-finish'
+                    }
+
+                    else{
+                        p.className = 'node'
+                    }
+                }
+            }
+        }
+    }
+
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+        this.clearBoard()
         const r = this.state.startNodeRow
         const c = this.state.startNodeCol
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
@@ -345,11 +368,12 @@ class PathFindingVisualizer extends Component {
         this.animateDijkstra(animations, path);
     }
 
-    test() {
+    getShortestPath() {
         const {grid,viaNodes} = this.state
         const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
         const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
         const {animations,path} = createGraph(grid, viaNodes, startNode, finishNode)
+        console.log(animations,path)
         this.animateDijkstra(animations, path);
     }
 
@@ -378,10 +402,10 @@ class PathFindingVisualizer extends Component {
                 <button style={{margin:"0px 10px"}} onClick={() => this.addViaNode()}>
                     Add via nodes
                 </button>
-                <button style={{margin:"0px 10px"}} onClick={() => this.test()}>
+                <button className="spAlgod" style={{margin:"0px 10px"}}  onClick={() => this.getShortestPath()}>
                     Find Shortest Path
                 </button>
-                
+                <button className="clBoard" style={{margin:"0px 10px"}} onClick={() => this.clearBoard()}>Clear board</button>
                 <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
