@@ -4,6 +4,7 @@ import Cells from './Cells';
 import { GraphTraversalBFS } from '../Algorithms/graphTraversalBFS';
 import { GraphTraversalDFS } from '../Algorithms/graphTraversalDFS';
 import { KruskalsMST } from '../Algorithms/kruskalsMST';
+import { PrimsMST } from '../Algorithms/primsMST';
 
 export class Test extends Component {
 
@@ -264,6 +265,14 @@ export class Test extends Component {
         this.animateGraphMST(animations,result)
     }
 
+    visualizePrimsMST() {
+        const {adjList,grid,edges} = this.state
+        const source = grid[11][1]
+        const {result,animations} = PrimsMST(adjList,source,grid,edges)
+        console.log(animations)
+        this.animateGraphMST(animations,result)
+    }
+
     render() {
         const {grid,edges,called} = this.state;
 
@@ -273,6 +282,7 @@ export class Test extends Component {
                 <button onClick={() => this.visualizeBFSTraversal()}>Visualize BFS traversal</button>
                 <button onClick={() => this.visualizeDFSTraversal()}>Visualize DFS traversal</button>
                 <button onClick={() => this.visualizeKruskalsMST()}>Visualize Kruskals MST</button>
+                <button onClick={() => this.visualizePrimsMST()}>Visualize Prims MST</button>
                 {grid.map((row, rowIdx) => {
                     return (
                     <tr key={rowIdx}>
