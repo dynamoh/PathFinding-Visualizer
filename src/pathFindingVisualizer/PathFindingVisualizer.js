@@ -7,7 +7,11 @@ import { BidirectionalSearch } from '../Algorithms/BidirectionalBFS';
 import { depthFirstSearch } from '../Algorithms/depthFirstSearch';
 import { AStarSearch } from '../Algorithms/AstarSearch';
 import { createGraph } from '../Algorithms/ShortestPath';
-import Navbar, { Link } from '../components/Navbar';
+import Sudoku from "../Sudoku/sudoku";
+import SieveOfEratosthenes from "../SieveOfEratosthenes/SieveOfEratosthenes";
+import TowerOfHanoi from "../TowerOfHanoi/TowerOfHanoi";
+import Test from "../pathFindingVisualizer/test";
+import { Dropdown, Menu } from 'semantic-ui-react'
 
 
 class PathFindingVisualizer extends Component {
@@ -377,23 +381,83 @@ class PathFindingVisualizer extends Component {
         console.log(animations,path)
         this.animateDijkstra(animations, path);
     }
+    state = {}
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
         const {grid, mouseIsPressed} = this.state;
-
+        const { activeItem } = this.state;
         return (
-            <>
-                <Navbar >
-                    <Link link={() => this.visualizeDijkstra()}>Visualize Dijkstra's Algorithm</Link>
-                    <Link link={() => this.visualizeAStar()}>Visualize a* Algorithm</Link>
-                    <Link link={() => this.visualizeBreadthFirstSearch()}>Visualize Breadth First Search Algorithm</Link>
-                    <Link link={() => this.VisualizeBidirectionalSearch()}>Visualize Bidirectional Search Algorithm</Link>
-                    <Link link={() => this.visualizeDepthFirstSearch()}>Visualize Depth First Search Algorithm</Link>
-                    <Link link={() => this.addViaNode()}>Add via nodes</Link>
-                    <Link link={() => this.getShortestPath()}>Find Shortest Path</Link>
-                    <Link link={() => this.clearBoard()}>Clear board</Link>
-                </Navbar>
+            <>  
+                <Menu stackable inverted>
+                    <Menu.Item header>
+                        Algorithm Visualiser
+                    </Menu.Item>
 
+                    <Dropdown item text='Algorithms'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.visualizeDijkstra()}>
+                                Visualize Dijkstra
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeDijkstra()}>
+                                Visualize Dijkstra's Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeAStar()}>
+                                Visualize a* Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeBreadthFirstSearch()}>
+                                Visualize Breadth First Search Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.VisualizeBidirectionalSearch()}>
+                                Visualize Bidirectional Search Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeDepthFirstSearch()}>
+                                Visualize Depth First Search Algorithm
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    
+                    <Menu.Item
+                        name='shortestpath'
+                        active={activeItem === 'shortestpath'}
+                        onClick={() => this.getShortestPath()}
+                    >
+                        Shortest Path
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='addViaNode'
+                        active={activeItem === 'addViaNode'}
+                        onClick={() => this.addViaNode()}
+                    >
+                        Add Via Nodes
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='clearBoard'
+                        active={activeItem === 'clearBoard'}
+                        onClick={() => this.clearBoard()}
+                    >
+                        Clear Board
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='TowerOfHanoi'
+                        active={activeItem === 'TowerOfHanoi'}
+                        onClick={TowerOfHanoi}
+                    >
+                        Tower Of Hanoi
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name=''
+                        active={activeItem === ''}
+                        onClick={Sudoku}
+                    >
+                        Sudoku
+                    </Menu.Item>
+
+                </Menu>
                 <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
