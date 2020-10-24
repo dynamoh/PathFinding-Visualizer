@@ -444,17 +444,15 @@ class PathFindingVisualizer extends Component {
                     <Menu.Item
                         name='TowerOfHanoi'
                         active={activeItem === 'TowerOfHanoi'}
-                        onClick={TowerOfHanoi}
                     >
-                        Tower Of Hanoi
+                        <a href="/towerofhanoi">Tower Of Hanoi</a>
                     </Menu.Item>
 
                     <Menu.Item
                         name=''
-                        active={activeItem === ''}
-                        onClick={Sudoku}
+                        active={activeItem === 'sudoku'}
                     >
-                        Sudoku
+                        <a href="/sudoku">Sudoku</a>
                     </Menu.Item>
 
                 </Menu>
