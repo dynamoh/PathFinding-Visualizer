@@ -2,12 +2,12 @@
     padding:15px;
     color:black;
     font-weight:600;
-    outline: 1px solid rgb(175, 216, 248);
-    display: inline-block;
+    outline: 1px solid rgb(53, 49, 49);
+    /* display: inline-block; */
     margin-bottom:1px;
     margin-right:1px;
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 50px;
 }
 
 .sudoku-grid{
@@ -20,39 +20,39 @@
 
 
 .rowcell{
-    border-top:3px solid rgb(175, 216, 248);
-    border-left:3px solid rgb(175, 216, 248);
+    border-top:3px solid rgb(53, 49, 49);
+    border-left:3px solid rgb(53, 49, 49);
 }
 
 .row{
-    border-top:3px solid rgb(175, 216, 248);
+    border-top:3px solid rgb(53, 49, 49) !important;
 }
 
 .cell{
-    border-left:3px solid rgb(175, 216, 248);
+    border-left:3px solid rgb(53, 49, 49);
 }
 
 .crcc{
-    border-bottom:3px solid rgb(175, 216, 248);
-    border-right:3px solid rgb(175, 216, 248);
+    border-bottom:3px solid rgb(53, 49, 49);
+    border-right:3px solid rgb(53, 49, 49);
 }
 
 .cc{
-    border-right:3px solid rgb(175, 216, 248);
+    border-right:3px solid rgb(53, 49, 49);
 }
 
 .cr{
-    border-bottom:3px solid rgb(175, 216, 248);
+    border-bottom:3px solid rgb(53, 49, 49);
 }
 
 .rowright{
-    border-right:3px solid rgb(175, 216, 248);
-    border-top:3px solid rgb(175, 216, 248);
+    border-right:3px solid rgb(53, 49, 49);
+    border-top:3px solid rgb(53, 49, 49);
 }
 
 .bottomcell {
-    border-bottom:3px solid rgb(175, 216, 248);
-    border-left:3px solid rgb(175, 216, 248);
+    border-bottom:3px solid rgb(53, 49, 49);
+    border-left:3px solid rgb(53, 49, 49);
 }
 
 .completed {
