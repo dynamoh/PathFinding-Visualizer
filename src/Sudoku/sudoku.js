@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {solveSudoku} from './solveSudoku'
 import './sudoku.css'
+import {Button} from 'semantic-ui-react'
 
 const GRID_SIZE = 9;
 const ROW = GRID_SIZE;
@@ -136,20 +137,39 @@ export class Sudoku extends Component {
     render() {
         return (
             <div className="sudoku-grid">
-                <button onClick={() => this.visualizeSudoku()} >Visualize Sudoku Solver</button>
+                <Button onClick={() => this.visualizeSudoku()} >Visualize Sudoku Solver</Button>
                 {grid.map((row,rowIdx) => {
                     return (
                         <tr key={rowIdx}>
                             {row.map((cell,cellIdx) => {
                                 return (
                                     <td 
-                                        className = {rowIdx%3===0 ? 
-                                                cellIdx%3===0 ?"sudoku-cell rowcell":cellIdx===8 ? "sudoku-cell rowright" :"sudoku-cell row" 
+                                        className = {
+                                            rowIdx%3===0 ? 
+                                            (
+                                                cellIdx%3===0 ? 
+                                                    "sudoku-cell rowcell" 
                                                 : 
-                                                cellIdx%3===0? rowIdx===8? "sudoku-cell bottomcell" : "sudoku-cell cell": 
-                                                cellIdx===8 ? rowIdx===8?"sudoku-cell crcc":"sudoku-cell cc"
+                                                    (cellIdx+1)%3===0 ? "sudoku-cell rowright" : "sudoku-cell row"
+                                            )
+                                            : 
+                                            (
+                                                cellIdx%3===0 ?
+                                                (
+                                                    (rowIdx+1)%3===0 ? 
+                                                        "sudoku-cell bottomcell" 
+                                                    : 
+                                                        rowIdx%3===0 ? "sudoku-cell crcc" : "sudoku-cell cell"
+                                                )
                                                 :
-                                                rowIdx===8?"sudoku-cell cr":"sudoku-cell" }
+                                                ( 
+                                                    (cellIdx+1)%3===0 ? 
+                                                        (rowIdx+1)%3===0 ? "sudoku-cell crcc" : "sudoku-cell cc"
+                                                    : 
+                                                        (rowIdx+1)%3===0 ? "sudoku-cell cr" : "sudoku-cell"
+                                                )
+                                            )
+                                        }
                                         id={`row-${rowIdx}-col-${cellIdx}`} 
                                         key={cellIdx}
                                     >
