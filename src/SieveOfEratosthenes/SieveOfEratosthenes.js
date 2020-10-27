@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './SieveOfEratosthenes.css'
 import { getPrimesSoe } from './visualizeSoe'
+import { Button } from 'semantic-ui-react'
 
 export class SieveOfEratosthenes extends Component {
     constructor(props) {
@@ -37,6 +38,7 @@ export class SieveOfEratosthenes extends Component {
 
     setPrimes(grid) {
         let p =1
+        grid[0][0]=0
         for(let i=0;i<15;i++){
             for(let j=0;j<30;j++){
                 if(grid[i][j]){
@@ -75,8 +77,9 @@ export class SieveOfEratosthenes extends Component {
     render() {
         const {grid} = this.state
         return (
+            <center>
             <div class="soe-grid">
-              <button onClick={() => this.visualizePrimeSoe()}>Visualize SOE</button>
+              <Button onClick={() => this.visualizePrimeSoe()}>Visualize SOE</Button>
               {grid.map((row,rowIdx) => {
                     return (
                         <tr key={rowIdx}>
@@ -93,6 +96,7 @@ export class SieveOfEratosthenes extends Component {
                     )
                 })}  
             </div>
+            </center>
         )
     }
 }
