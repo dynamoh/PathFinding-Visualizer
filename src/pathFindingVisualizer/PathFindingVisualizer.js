@@ -11,6 +11,7 @@ import Sudoku from "../Sudoku/sudoku";
 import SieveOfEratosthenes from "../SieveOfEratosthenes/SieveOfEratosthenes";
 import TowerOfHanoi from "../TowerOfHanoi/TowerOfHanoi";
 import Test from "../pathFindingVisualizer/test";
+import { stairCase } from '../MazeAndPattern/staticPattern.js';
 import { Dropdown, Menu } from 'semantic-ui-react'
 
 
@@ -381,6 +382,36 @@ class PathFindingVisualizer extends Component {
         console.log(animations,path)
         this.animateDijkstra(animations, path);
     }
+
+    staticPattern(pattern) {
+        const grid = this.state.grid;
+        for(let i=0; i<pattern.length; i++) {
+            let x = pattern[i].split(":");
+            grid[parseInt(x[0])][parseInt(x[1])].isWall = true;
+            setTimeout(() => {
+                document.getElementById(`node-${parseInt(x[0])}-${parseInt(x[1])}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
+
+    randomPattern() {
+        const grid = this.state.grid;
+        for(let i=0; i<400; i++) {
+            let x = Math.floor(Math.random()*21), y = Math.floor(Math.random()*53);
+            if((x == this.state.startNodeRow && y == this.state.startNodeCol) ||
+                (y == this.state.endNodeRow && y == this.state.endNodeCol)) {
+                i--;
+                continue;
+            }
+            setTimeout(() => {
+                document.getElementById(`node-${x}-${y}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
+
+
     state = {}
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -417,6 +448,17 @@ class PathFindingVisualizer extends Component {
                         </Dropdown.Menu>
                     </Dropdown>
                     
+                    <Dropdown item text='Maze and Pattern'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.staticPattern(stairCase)}>
+                                Staircase Pattern
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.randomPattern()}>
+                                Random Pattern
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
                     <Menu.Item
                         name='shortestpath'
                         active={activeItem === 'shortestpath'}
