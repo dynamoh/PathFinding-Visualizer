@@ -11,7 +11,8 @@ import Sudoku from "../Sudoku/sudoku";
 import SieveOfEratosthenes from "../SieveOfEratosthenes/SieveOfEratosthenes";
 import TowerOfHanoi from "../TowerOfHanoi/TowerOfHanoi";
 import Test from "../pathFindingVisualizer/test";
-import { stairCase } from '../MazeAndPattern/staticPattern.js';
+import { stairCase, recursivePattern } from '../MazeAndPattern/staticPattern.js';
+// import { recursivePattern } from '../MazeAndPattern/recursivePattern.js';
 import { Dropdown, Menu } from 'semantic-ui-react'
 
 
@@ -400,10 +401,11 @@ class PathFindingVisualizer extends Component {
         for(let i=0; i<400; i++) {
             let x = Math.floor(Math.random()*21), y = Math.floor(Math.random()*53);
             if((x == this.state.startNodeRow && y == this.state.startNodeCol) ||
-                (y == this.state.endNodeRow && y == this.state.endNodeCol)) {
+                (x == this.state.endNodeRow && y == this.state.endNodeCol)) {
                 i--;
                 continue;
             }
+            grid[x][y].isWall = true;
             setTimeout(() => {
                 document.getElementById(`node-${x}-${y}`).className =
                 'node node-wall';
@@ -411,6 +413,17 @@ class PathFindingVisualizer extends Component {
         }
     }
 
+    staticRecursivePattern(pattern) {
+        const grid = this.state.grid;
+        for(let i=0; i<pattern.length; i++) {
+            let x = pattern[i].split(":");
+            grid[parseInt(x[0])][parseInt(x[1])].isWall = true;
+            setTimeout(() => {
+                document.getElementById(`node-${parseInt(x[0])}-${parseInt(x[1])}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
 
     state = {}
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -455,6 +468,9 @@ class PathFindingVisualizer extends Component {
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => this.randomPattern()}>
                                 Random Pattern
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.staticRecursivePattern(recursivePattern)}>
+                                Recursive Pattern
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
