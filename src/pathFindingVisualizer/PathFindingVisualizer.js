@@ -7,6 +7,13 @@ import { BidirectionalSearch } from '../Algorithms/BidirectionalBFS';
 import { depthFirstSearch } from '../Algorithms/depthFirstSearch';
 import { AStarSearch } from '../Algorithms/AstarSearch';
 import { createGraph } from '../Algorithms/ShortestPath';
+import Sudoku from "../Sudoku/sudoku";
+import SieveOfEratosthenes from "../SieveOfEratosthenes/SieveOfEratosthenes";
+import TowerOfHanoi from "../TowerOfHanoi/TowerOfHanoi";
+import Test from "../pathFindingVisualizer/test";
+import { stairCase, recursivePattern } from '../MazeAndPattern/staticPattern.js';
+// import { recursivePattern } from '../MazeAndPattern/recursivePattern.js';
+import { Dropdown, Menu } from 'semantic-ui-react'
 
 
 class PathFindingVisualizer extends Component {
@@ -50,8 +57,8 @@ class PathFindingVisualizer extends Component {
                     grid[row][col].isWall = true
                     this.setState({grid});
                 }
-            }    
-        }    
+            }
+        }
     }
 
     createNode = (col, row) => {
@@ -90,7 +97,7 @@ class PathFindingVisualizer extends Component {
             row = Math.floor(Math.random()*(19-2+1) + 2)
             col = Math.floor(Math.random()*(52-2+1) + 2)
         }
-        
+
         const lst = viaNodes
         lst.push(grid[row][col])
         const newGrid = grid.slice();
@@ -136,12 +143,12 @@ class PathFindingVisualizer extends Component {
         if (start)
         {
             newNode.isStart = !node.isStart
-        } 
-        else 
+        }
+        else
         {
             newNode.isFinish =  !node.isFinish
         }
-        
+
         if(newNode.isStart===true){
             this.setState({
                 startNodeDragged:false,
@@ -187,20 +194,20 @@ class PathFindingVisualizer extends Component {
     }
 
     handleMouseDown(row, col) {
-        
+
         const ele = document.getElementById(`node-${row}-${col}`).className;
         const k = ele.split(" ");
-        if(k[1] === 'node-start' || this.state.startNodeDragged){    
+        if(k[1] === 'node-start' || this.state.startNodeDragged){
             this.setState( prevNode => ({
-                grid: newGrid, 
+                grid: newGrid,
                 startNodeDragged: true,
             }));
             const newGrid = this.getToggledStartNode(this.state.grid, row, col,true);
             return;
-        } 
+        }
         else if(k[1] === 'node-finish' || this.state.endNodeDragged ) {
             this.setState( prevNode => ({
-                grid: newGrid, 
+                grid: newGrid,
                 endNodeDragged: true,
             }));
             const newGrid = this.getToggledStartNode(this.state.grid, row, col,false);
@@ -228,7 +235,7 @@ class PathFindingVisualizer extends Component {
             const newGrid = this.getToggledStartNode(this.state.grid, row, col,false);
             this.setState({grid: newGrid});
             return;
-        } 
+        }
         else if(k[1] === 'node-via'){
             return
         }
@@ -241,7 +248,7 @@ class PathFindingVisualizer extends Component {
     handleMouseUp() {
         if (this.state.stnode){
             this.setState({startNodeDragged: false,stnode:true,mouseIsPressed: false})
-        } 
+        }
         if (this.state.ednode) {
             this.setState({endNodeDragged: false,ednode:true,mouseIsPressed: false})
         }
@@ -296,7 +303,7 @@ class PathFindingVisualizer extends Component {
                 document.getElementById(`node-${node.row}-${node.col}`).className =
                 'node node-visited';
             }
-            
+
           }, 10 * i);
         }
     }
@@ -305,7 +312,7 @@ class PathFindingVisualizer extends Component {
         const r = this.state.startNodeRow
         const c = this.state.startNodeCol
         if(nodesInShortestPathOrder.length === 0){
-            return 
+            return
         }
         for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
           setTimeout(() => {
@@ -326,7 +333,7 @@ class PathFindingVisualizer extends Component {
           }, 50 * i);
         }
     }
-    
+
     visualizeDijkstra() {
         const {grid} = this.state;
         const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
@@ -377,35 +384,136 @@ class PathFindingVisualizer extends Component {
         this.animateDijkstra(animations, path);
     }
 
+    staticPattern(pattern) {
+        const grid = this.state.grid;
+        for(let i=0; i<pattern.length; i++) {
+            let x = pattern[i].split(":");
+            grid[parseInt(x[0])][parseInt(x[1])].isWall = true;
+            setTimeout(() => {
+                document.getElementById(`node-${parseInt(x[0])}-${parseInt(x[1])}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
+
+    randomPattern() {
+        const grid = this.state.grid;
+        for(let i=0; i<400; i++) {
+            let x = Math.floor(Math.random()*21), y = Math.floor(Math.random()*53);
+            if((x == this.state.startNodeRow && y == this.state.startNodeCol) ||
+                (x == this.state.endNodeRow && y == this.state.endNodeCol)) {
+                i--;
+                continue;
+            }
+            grid[x][y].isWall = true;
+            setTimeout(() => {
+                document.getElementById(`node-${x}-${y}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
+
+    staticRecursivePattern(pattern) {
+        const grid = this.state.grid;
+        for(let i=0; i<pattern.length; i++) {
+            let x = pattern[i].split(":");
+            grid[parseInt(x[0])][parseInt(x[1])].isWall = true;
+            setTimeout(() => {
+                document.getElementById(`node-${parseInt(x[0])}-${parseInt(x[1])}`).className =
+                'node node-wall';
+            }, 25*i);
+        }
+    }
+
+    state = {}
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
     render() {
         const {grid, mouseIsPressed} = this.state;
-
+        const { activeItem } = this.state;
         return (
-            <>
-                
-                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeDijkstra()}>
-                    Visualize Dijkstra's Algorithm
-                </button>
-                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeAStar()}>
-                    Visualize a* Algorithm
-                </button>
-                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeBreadthFirstSearch()}>
-                    Visualize Breadth First Search Algorithm
-                </button>
-                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.VisualizeBidirectionalSearch()}>
-                    Visualize Bidirectional Search Algorithm
-                </button>
-                <button className="Algod" style={{margin:"0px 10px"}} onClick={() => this.visualizeDepthFirstSearch()}>
-                    Visualize Depth First Search Algorithm
-                </button>
-                <br />
-                <button style={{margin:"0px 10px"}} onClick={() => this.addViaNode()}>
-                    Add via nodes
-                </button>
-                <button className="spAlgod" style={{margin:"0px 10px"}}  onClick={() => this.getShortestPath()}>
-                    Find Shortest Path
-                </button>
-                <button className="clBoard" style={{margin:"0px 10px"}} onClick={() => this.clearBoard()}>Clear board</button>
+            <>  
+                <Menu stackable inverted>
+                    <Menu.Item header>
+                        Algorithm Visualiser
+                    </Menu.Item>
+
+                    <Dropdown item text='Algorithms'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.visualizeDijkstra()}>
+                                Visualize Dijkstra
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeDijkstra()}>
+                                Visualize Dijkstra's Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeAStar()}>
+                                Visualize a* Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeBreadthFirstSearch()}>
+                                Visualize Breadth First Search Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.VisualizeBidirectionalSearch()}>
+                                Visualize Bidirectional Search Algorithm
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.visualizeDepthFirstSearch()}>
+                                Visualize Depth First Search Algorithm
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    
+                    <Dropdown item text='Maze and Pattern'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.staticPattern(stairCase)}>
+                                Staircase Pattern
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.randomPattern()}>
+                                Random Pattern
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.staticRecursivePattern(recursivePattern)}>
+                                Recursive Pattern
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                    <Menu.Item
+                        name='shortestpath'
+                        active={activeItem === 'shortestpath'}
+                        onClick={() => this.getShortestPath()}
+                    >
+                        Shortest Path
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='addViaNode'
+                        active={activeItem === 'addViaNode'}
+                        onClick={() => this.addViaNode()}
+                    >
+                        Add Via Nodes
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='clearBoard'
+                        active={activeItem === 'clearBoard'}
+                        onClick={() => this.clearBoard()}
+                    >
+                        Clear Board
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='TowerOfHanoi'
+                        active={activeItem === 'TowerOfHanoi'}
+                    >
+                        <a href="/towerofhanoi">Tower Of Hanoi</a>
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name=''
+                        active={activeItem === 'sudoku'}
+                    >
+                        <a href="/sudoku">Sudoku</a>
+                    </Menu.Item>
+
+                </Menu>
                 <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
@@ -433,7 +541,7 @@ class PathFindingVisualizer extends Component {
                     );
                 })}
                 </div>
-                
+
             </>
         )
     }
