@@ -1,12 +1,12 @@
 .node {
     width: 25px;
-	  margin: 1px 2px;
+	  /* margin: 1px 2px; */
 	  height: 24px;
-	  box-shadow: inset 0px -2px 3px 1px #3e2d2d80;
+	  /* box-shadow: inset 0px -2px 3px 1px #3e2d2d80; */
 	  outline: 0.1px solid rgb(223 220 220 / 47%);
-	  display: inline-block;
+	  /* display: inline-block; */
 	  background: #ffffff;
-	  border-radius: 2px;
+	  /* border-radius: 2px; */
   }
   
   .node-finish {
@@ -126,7 +126,8 @@
   } 
 
   .node-wall{
-    background-image:url(wall.jpg) !important;
+    /* background-image:url(wall.jpg) !important; */
+    background-color: rgb(41 63 119);
     background-position-y: top;
     background-position: top;
     background-repeat: no-repeat;
