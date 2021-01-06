@@ -478,7 +478,8 @@ class PathFindingVisualizer extends Component {
                     <Menu.Item
                         name='shortestpath'
                         active={activeItem === 'shortestpath'}
-                        onClick={() => this.getShortestPath()}
+                        onClick={() => this.getShortestPath()} 
+                        className="spAlgod"
                     >
                         Shortest Path
                     </Menu.Item>
