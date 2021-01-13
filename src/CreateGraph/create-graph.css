@@ -1,0 +1,10 @@
+.create-graph-container {
+    padding: 5px;
+}
+
+.draw-graph {
+    border: 1px solid black;
+    background-color: grey;
+    height:80vh;
+    width:100%;
+}

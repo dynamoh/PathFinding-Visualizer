@@ -5,6 +5,7 @@ import SieveOfEratosthenes from "./SieveOfEratosthenes/SieveOfEratosthenes";
 import PathFindingVisualizer from "./pathFindingVisualizer/PathFindingVisualizer";
 import TowerOfHanoi from "./TowerOfHanoi/TowerOfHanoi";
 import Test from "./pathFindingVisualizer/test";
+import CreateGraph from "./CreateGraph/CreateGraph"
 
 const BaseRouter = () => (
     <>
@@ -12,7 +13,8 @@ const BaseRouter = () => (
       <Route exact path="/sudoku" component={Sudoku} />
       <Route exact path ="/sieve"  component={SieveOfEratosthenes} />
       <Route exact path ="/towerofhanoi"  component={TowerOfHanoi} />
-      <Route exact path = "/test" component={Test} />
+      <Route exact path = "/graph" component={Test} />
+      <Route exact path = "/create-graph" component={CreateGraph} />
     </>
   );
   
