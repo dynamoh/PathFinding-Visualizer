@@ -1,10 +1,57 @@
 .create-graph-container {
-    padding: 5px;
+    
 }
 
 .draw-graph {
-    border: 1px solid black;
-    background-color: grey;
-    height:80vh;
-    width:100%;
+    margin-right:5px;
+    margin-left:5px;
+    border: 1px solid gray;
+}
+
+.graph-node {
+    width: 25px;
+    border: 0.1px solid rgb(245, 244, 244);
+    height: 25px;
+    z-index: 1;
+}
+
+.graph-node-visible {
+    background-color: green;
+    border: 1px solid green;
+    border-radius: 50%;
+    animation: create-node 0.5s ease-in;
+}
+
+.graph-node-input {
+    z-index: 50;
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+    color: white !important;
+    max-width: 24px;
+    text-align: center;
+    font-size: 10px;
+}
+
+@keyframes create-node {
+    0%{
+        transform: scale(1.1);
+    }
+
+    50%{
+        transform: scale(1.5);
+    }
+
+    100%{
+        transform: scale(1);
+    }
+}
+
+.controls {
+    display: flex;
+}
+
+.controls .field {
+    flex: 0.25;
+    padding: 20px;
 }
