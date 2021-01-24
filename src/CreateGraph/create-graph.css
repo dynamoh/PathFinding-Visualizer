@@ -3,14 +3,14 @@
 }
 
 .draw-graph {
-    margin-right:5px;
-    margin-left:5px;
-    border: 1px solid gray;
+    margin-right:15px;
+    margin-left:15px;
+    border: 2px solid gray;
 }
 
 .graph-node {
     width: 25px;
-    border: 0.1px solid rgb(245, 244, 244);
+    /* border: 0.1px solid rgb(245, 244, 244); */
     height: 25px;
     z-index: 1;
 }

@@ -107,12 +107,14 @@ export class CreateGraph extends Component {
             if (!graph.hasNode(val)) 
                 return ;
             if (fromNode !== '') {
+                nodeElement.style.opacity=1;
                 graph.setEdge(fromNode, val);
                 fromNode = ''
                 console.log(graph.edges())
                 this.setState({fromNode})
             }
             else {
+                nodeElement.style.opacity=1;
                 fromNode = val
                 this.setState({fromNode})
                 console.log(fromNode)
@@ -123,7 +125,23 @@ export class CreateGraph extends Component {
             return ;
     }
 
-    handleChange = (e, { value }) => this.setState({ value })
+    handleChange = (e, { value }) => {
+        let element = $('.graph-node-visible');
+        if (value === 'addEdge') {
+            for(let i=0; i<element.length; i++) {
+                setTimeout(() => {
+                    element[i].style.opacity = 0.65;
+                }, 100 * i);
+            }
+
+        }
+        else {
+            for(let i=0; i<element.length; i++) {
+                element[i].style.opacity = 1;
+            }
+        }
+        this.setState({ value })
+    }
     addNode(e) {
         console.log(e.clientX, e.clientY);
     }
