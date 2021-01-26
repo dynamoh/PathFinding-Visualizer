@@ -63,3 +63,15 @@
     flex: 0.25;
     padding: 20px;
 }
+
+.svg-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 1.6s linear forwards;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}

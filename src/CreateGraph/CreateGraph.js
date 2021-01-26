@@ -234,7 +234,7 @@ export class CreateGraph extends Component {
                         let y2 = d2.offset().top + (d2.height()/2);
                         return (
                             <svg key={idx} className="svg">
-                                <line className="svg-line" text="20" id={`line-${edge.v}-${edge.w}`} style={{strokeWidth:"0.5px",stroke:"red"}} x1={x1} y1={y1} x2={x2} y2={y2}></line>
+                                <line className="svg-line" text="20" id={`line-${edge.v}-${edge.w}`} style={{strokeWidth:"1.5px",stroke:"red"}} x1={x1} y1={y1} x2={x2} y2={y2}></line>
                                 {/* <text x={x3} y={y3} id={`text-${edge[0]}-${edge[1]}-${edge[2]}-${edge[3]}`} font-family="sans-serif"  font-size="12px" fill="black">{edge[4]}</text> */}
                             </svg>
                         )
