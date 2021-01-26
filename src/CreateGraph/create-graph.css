@@ -1,7 +1,3 @@
-.create-graph-container {
-    
-}
-
 .draw-graph {
     margin-right:15px;
     margin-left:15px;
@@ -19,7 +15,7 @@
     background-color: green;
     border: 1px solid green;
     border-radius: 50%;
-    animation: create-node 0.5s ease-in;
+    animation: anim-node 0.4s ease-in;
 }
 
 .graph-node-input {
@@ -44,6 +40,18 @@
 
     100%{
         transform: scale(1);
+    }
+}
+
+@keyframes anim-node {
+    0% {
+        transform: translateY(-500px);
+    }
+    85% {
+        transform: translateY(100px);
+    }
+    100% {
+        transform: translateY(0px);
     }
 }
 
