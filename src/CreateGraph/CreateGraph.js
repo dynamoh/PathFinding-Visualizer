@@ -224,6 +224,7 @@ export class CreateGraph extends Component {
                         </tbody>
                     </div>
                 </div>
+                <svg  className="svg">
                     {graph.edges().map((edge, idx) => {
                         let d1 = $(`#${edge.v}`)
                         let d2 = $(`#${edge.w}`)
@@ -233,12 +234,11 @@ export class CreateGraph extends Component {
                         let x2 = d2.offset().left + (d2.width()/2);
                         let y2 = d2.offset().top + (d2.height()/2);
                         return (
-                            <svg key={idx} className="svg">
-                                <line className="svg-line" text="20" id={`line-${edge.v}-${edge.w}`} style={{strokeWidth:"1.5px",stroke:"red"}} x1={x1} y1={y1} x2={x2} y2={y2}></line>
-                                {/* <text x={x3} y={y3} id={`text-${edge[0]}-${edge[1]}-${edge[2]}-${edge[3]}`} font-family="sans-serif"  font-size="12px" fill="black">{edge[4]}</text> */}
-                            </svg>
+                            <line key={idx} className="svg-line" text="20" id={`line-${edge.v}-${edge.w}`} style={{strokeWidth:"1.5px",stroke:"red"}} x1={x1} y1={y1} x2={x2} y2={y2}></line>
+                            /* <text x={x3} y={y3} id={`text-${edge[0]}-${edge[1]}-${edge[2]}-${edge[3]}`} font-family="sans-serif"  font-size="12px" fill="black">{edge[4]}</text> */
                         )
                     })}
+                </svg>
             </>
         )
     }

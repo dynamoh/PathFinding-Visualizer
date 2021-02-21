@@ -1,7 +1,10 @@
 .draw-graph {
     margin-right:15px;
     margin-left:15px;
-    border: 2px solid gray;
+    margin-bottom: 25px;
+    border: 0.1px solid rgba(0,0,0,.5);
+    border-radius:15px;
+    box-shadow: inset 0px 0px 100px rgba(5, 51, 255, 0.301);
 }
 
 .graph-node {
@@ -65,8 +68,8 @@
 }
 
 .svg-line {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
     animation: dash 1.6s linear forwards;
 }
 
