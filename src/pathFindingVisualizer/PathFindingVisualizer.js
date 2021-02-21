@@ -308,6 +308,50 @@ class PathFindingVisualizer extends Component {
         }
     }
 
+    animateViaPath(nodesToBeAnimated, nodesInShortestPathOrder) {
+        this.clearBoard()
+        const r = this.state.startNodeRow;
+        const c = this.state.startNodeCol;
+        console.log(nodesInShortestPathOrder);
+
+        let colors = ['blue', 'red', 'yellow', 'orange', 'green', 'cyan','blue', 'red', 'yellow', 'orange', 'green', 'cyan','blue', 'red', 'yellow', 'orange', 'green', 'cyan'];
+
+        for (let j = 0; j < nodesToBeAnimated.length; j++) {
+            let visitedNodesInOrder = nodesToBeAnimated[j];
+
+            for(let i=0; i<=visitedNodesInOrder.length; i++) {
+                
+                if (j === nodesToBeAnimated.length - 1 && i === visitedNodesInOrder.length && nodesInShortestPathOrder!==false) {
+                    console.log("Entered")
+                    setTimeout(() => {
+                        this.animateShortestPath(nodesInShortestPathOrder);
+                    }, 10 * i);
+                    return;
+                }
+                if (i !== visitedNodesInOrder.length)
+                {
+                    setTimeout(() => {
+                        const node = visitedNodesInOrder[i];
+                        if(node.isVia) {
+                            document.getElementById(`node-${node.row}-${node.col}`).className =
+                            'node node-visited-via';
+                        } else if(node.isStart) {
+                            document.getElementById(`node-${node.row}-${node.col}`).className =
+                            'node node-visited-start';
+                        } else if(node.isFinish) {
+                            document.getElementById(`node-${node.row}-${node.col}`).className =
+                            'node node-visited-finish';
+                        } else {
+                            document.getElementById(`node-${node.row}-${node.col}`).className =
+                            'node node-visited';
+                        }
+
+                    }, 10 * i);
+                }
+            }
+        }
+    }
+
     animateShortestPath(nodesInShortestPathOrder) {
         const r = this.state.startNodeRow
         const c = this.state.startNodeCol
@@ -380,8 +424,8 @@ class PathFindingVisualizer extends Component {
         const startNode = grid[this.state.startNodeRow][this.state.startNodeCol];
         const finishNode = grid[this.state.endNodeRow][this.state.endNodeCol];
         const {animations,path} = createGraph(grid, viaNodes, startNode, finishNode)
-        console.log(animations,path)
-        this.animateDijkstra(animations, path);
+        console.log(animations)
+        this.animateViaPath(animations, path);
     }
 
     staticPattern(pattern) {

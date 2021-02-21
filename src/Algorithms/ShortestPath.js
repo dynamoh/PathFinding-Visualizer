@@ -103,9 +103,13 @@ function getPath(grid, start, finish, min_path, viaNodes) {
     const final_animations = []
     const final_path = []
     let {animations, path} =  AStarSearch(grid,start,viaNodes[min_path[0]-1])
+
+    let curr_animation = [];
     for(let i=0;i<animations.length;i++) {
-        final_animations.push(animations[i])
+        curr_animation.push(animations[i])
     }
+    final_animations.push(curr_animation);
+
     for(let i=0;i<path.length;i++) {
         final_path.push(path[i])
     }
@@ -119,20 +123,29 @@ function getPath(grid, start, finish, min_path, viaNodes) {
                 p =  AStarSearch(grid,viaNodes[min_path[l-1]-1],viaNodes[min_path[l+1]-1])
             }
         }
+
+        curr_animation = [];
         for(let i=0;i<p.animations.length;i++) {
-            final_animations.push(p.animations[i])
+            curr_animation.push(p.animations[i])
         }
+        final_animations.push(curr_animation);
+
         for(let i=0;i<p.path.length;i++) {
             final_path.push(p.path[i])
         }
     }
+
     let p =  AStarSearch(grid,viaNodes[min_path[min_path.length-1]-1],finish)
     if(p.path.length == 0) {
         return {animations:final_animations, path:[]}
     }
+
+    curr_animation = [];
     for(let i=0;i<p.animations.length;i++) {
-        final_animations.push(p.animations[i])
+        curr_animation.push(p.animations[i])
     }
+    final_animations.push(curr_animation);
+
     for(let i=0;i<p.path.length;i++) {
         final_path.push(p.path[i])
     }

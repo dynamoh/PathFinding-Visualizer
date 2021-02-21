@@ -15,6 +15,8 @@ export class CreateGraph extends Component {
             graph: new Graph(),
             fromNode: '',
             toNode: '',
+            adjList: [],
+            sourceNode: '',
         };
     }
 
@@ -58,7 +60,6 @@ export class CreateGraph extends Component {
         this.setState(
             (prevState) => ({
                 addNode: !prevState.addNode
-
             })
         )
     }
@@ -129,6 +130,9 @@ export class CreateGraph extends Component {
 
     handleChange = (e, { value }) => {
         this.setState({ value })
+        if (value === 'animate') {
+            alert("Animate graph")
+        }
     }
 
     addNode(e) {
@@ -176,6 +180,15 @@ export class CreateGraph extends Component {
                                     name='radioGroup'
                                     value='animate'
                                     checked={this.state.value === 'animate'}
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <Radio slider
+                                    label='Source Node'
+                                    name='radioGroup'
+                                    value='sourceNode'
+                                    checked={this.state.value === 'sourceNode'}
                                     onChange={this.handleChange}
                                 />
                             </Form.Field>
