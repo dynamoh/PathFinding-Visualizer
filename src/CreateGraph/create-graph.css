@@ -1,10 +1,10 @@
 .draw-graph {
     margin-right:15px;
     margin-left:15px;
-    margin-bottom: 25px;
-    border: 0.1px solid rgba(0,0,0,.5);
-    border-radius:15px;
-    box-shadow: inset 0px 0px 100px rgba(5, 51, 255, 0.301);
+    border-radius: 10px;
+    background-color: #d0d0d073;
+    padding:20px;
+    cursor: pointer;
 }
 
 .graph-node {
@@ -12,24 +12,27 @@
     /* border: 0.1px solid rgb(245, 244, 244); */
     height: 25px;
     z-index: 1;
+    color: white !important;
+    font-size: 80%;
 }
 
 .graph-node-visible {
-    background-color: green;
-    border: 1px solid green;
+    /* background-color: rgb(55, 212, 55);
+    border: 1px solid rgb(55, 212, 55); */
     border-radius: 50%;
-    animation: anim-node 0.4s ease-in;
+    background: linear-gradient(145deg, #fbbd08, #ff7300);
+    box-shadow: 2px 2px 5px 1px #bebebe, -2px -2px 5px 1px #ffffff;
+    animation: create-node 0.4s ease-in;
 }
 
 .graph-node-input {
-    z-index: 50;
-    border: none !important;
+    border: none;
     outline: none !important;
     background: none !important;
-    color: white !important;
-    max-width: 24px;
+    max-width: 40px;
+    min-height: 10px;
     text-align: center;
-    font-size: 10px;
+    font-size: 20px;
 }
 
 @keyframes create-node {
@@ -78,3 +81,28 @@
         stroke-dashoffset: 0;
     }
 }
+
+.popup-element {
+    z-index: 100 !important;
+}
+
+@keyframes bg-fade-anim {
+    0% {
+        background-color: green;
+    }
+    50% {
+        background-color: green;
+    }
+    100% {
+        background-color:  rgb(55, 212, 55);
+    }
+}
+
+/*
+    Add svgs
+    use toggle buttons
+    inset shadow for workspace
+    pop over each node : colors/value
+    neumorphic ui
+    font: roboto
+*/
